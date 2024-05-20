@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/jquery"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.terminal/js/jquery.terminal.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal/css/jquery.terminal.min.css"/>
+</head>
+<body>
+    <script>
+        const asciiArt = `
+        
+                                                                                             
+   _|_|    _|                                                _|                      
+ _|    _|  _|    _|_|    _|    _|    _|_|_|  _|_|_|      _|_|_|  _|  _|_|    _|_|    
+ _|_|_|_|  _|  _|_|_|_|    _|_|    _|    _|  _|    _|  _|    _|  _|_|      _|_|_|_|  
+ _|    _|  _|  _|        _|    _|  _|    _|  _|    _|  _|    _|  _|        _|        
+ _|    _|  _|    _|_|_|  _|    _|    _|_|_|  _|    _|    _|_|_|  _|          _|_|_|  
+                                                                                     
+
+`;
+
+        $(document).ready(function() {
+            const jokes = [
+                "Why don't scientists trust atoms? Because they make up everything!",
+                "What do you get if you cross a cat with a dark horse? Kitty Perry.",
+                "Why was the math book sad? Because it had too many problems.",
+                "Why don’t some couples go to the gym? Because some relationships don’t work out.",
+                "Why did the scarecrow win an award? Because he was outstanding in his field!",
+                "Why don’t skeletons fight each other? They don’t have the guts.",
+                "What did one ocean say to the other ocean? Nothing, they just waved.",
+                "Why do cows have hooves instead of feet? Because they lactose.",
+                "What do you call fake spaghetti? An impasta.",
+                "Why did the bicycle fall over? Because it was two-tired.",
+                "How does a penguin build its house? Igloos it together."
+            ];
+
+            function getRandomJoke() {
+                const randomIndex = Math.floor(Math.random() * jokes.length);
+                return jokes[randomIndex];
+            }
+            $('body').terminal({
+                help: function() {
+                    this.echo('<span style="color: red;">Available commands: help, echo, clear, version, date, time, about, math, joke</span>', {raw: true});
+                },
+                echo: function(arg) {
+                    this.echo(arg);
+                },
+                clear: function() {
+                    this.clear();
+                },
+                version: function() {
+                    this.echo('jQuery Terminal version 2.42.0 | Credits:  * Copyright (c) 2011-2023 Jakub T. Jankiewicz <https://jcubic.pl/me> * Released under the MIT license');
+                },
+                date: function() {
+                    this.echo(new Date().toDateString());
+                },
+                time: function() {
+                    this.echo(new Date().toLocaleTimeString());
+                },
+                about: function() {
+                    this.echo('<span style="color: red;">Portfolio Navigation</span>', {raw: true});
+                    this.echo(`
+                                * Main page (if terminal hater): <https://al3dev.com.br/>
+                                
+                                * About me page: <https://al3dev.com.br/about.html>
+
+                                * Projetcs page: <https://al3dev.com.br/projects.html>
+
+                                * Skills page: <https://al3dev.com.br/skills.html>
+
+                                * Contact page: <https://al3dev.com.br/contact.html>
+                           
+                                `
+                    );
+                },
+                math: function(expression) {
+                    try {
+                        this.echo(eval(expression));
+                    } catch (e) {
+                        this.error('Invalid expression');
+                    }
+                },
+                joke: function() {
+                    this.echo("(10 avaliable)")
+                    this.echo(getRandomJoke());
+                }
+                
+            }, {
+                greetings: asciiArt
+                        
+                
+            });
+        });
+    </script>
+</body>
+</html>
