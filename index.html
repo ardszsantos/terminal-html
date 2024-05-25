@@ -16,7 +16,7 @@
  _|    _|  _|  _|        _|    _|  _|    _|  _|    _|  _|    _|  _|        _|        
  _|    _|  _|    _|_|_|  _|    _|    _|_|_|  _|    _|    _|_|_|  _|          _|_|_|  
                                                                                      
-
+Welcome to my portfolio, type help to get started!
 `;
 
         $(document).ready(function() {
@@ -40,7 +40,7 @@
             }
             $('body').terminal({
                 help: function() {
-                    this.echo('<span style="color: red;">Available commands: help, echo, clear, version, date, time, about, math, joke</span>', {raw: true});
+                    this.echo('<span style="color: red;">Available commands: explore, about, contact, projects, echo, clear, version, date, time, about, math, joke</span>', {raw: true});
                 },
                 echo: function(arg) {
                     this.echo(arg);
@@ -57,18 +57,23 @@
                 time: function() {
                     this.echo(new Date().toLocaleTimeString());
                 },
+                projects: function() {
+                    this.echo(`* Projetcs page: <http://127.0.0.1:5500/projects.html>`);
+                },
                 about: function() {
+                    this.echo(`* About me page: <http://127.0.0.1:5500/about.html>`);
+                },
+                contact: function() {
+                    this.echo(`* Contact page: <http://127.0.0.1:5500/contact.html>`);
+                },
+                explore: function() {
                     this.echo('<span style="color: red;">Portfolio Navigation</span>', {raw: true});
-                    this.echo(`
-                                * Main page (if terminal hater): <https://al3dev.com.br/>
-                                
-                                * About me page: <https://al3dev.com.br/about.html>
+                    this.echo(`          
+                                * About me page: <http://127.0.0.1:5500/about.html>
 
-                                * Projetcs page: <https://al3dev.com.br/projects.html>
+                                * Projetcs page: <http://127.0.0.1:5500/projects.html>
 
-                                * Skills page: <https://al3dev.com.br/skills.html>
-
-                                * Contact page: <https://al3dev.com.br/contact.html>
+                                * Contact page: <http://127.0.0.1:5500/contact.html>
                            
                                 `
                     );
@@ -83,6 +88,9 @@
                 joke: function() {
                     this.echo("(10 avaliable)")
                     this.echo(getRandomJoke());
+                },
+                ls: function() {
+                    this.echo("explore, about, contact, projects, echo, clear, version, date, time, about, math, joke")
                 }
                 
             }, {
