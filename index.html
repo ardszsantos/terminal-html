@@ -16,7 +16,7 @@
  _|    _|  _|  _|        _|    _|  _|    _|  _|    _|  _|    _|  _|        _|        
  _|    _|  _|    _|_|_|  _|    _|    _|_|_|  _|    _|    _|_|_|  _|          _|_|_|  
                                                                                      
-Welcome to my portfolio, type help to get started!
+Welcome to my terminal, type help to get started!
 `;
 
         $(document).ready(function() {
@@ -38,66 +38,63 @@ Welcome to my portfolio, type help to get started!
                 const randomIndex = Math.floor(Math.random() * jokes.length);
                 return jokes[randomIndex];
             }
-            $('body').terminal({
-                help: function() {
-                    this.echo('<span style="color: red;">Available commands: explore, about, contact, projects, echo, clear, version, date, time, about, math, joke</span>', {raw: true});
-                },
-                echo: function(arg) {
-                    this.echo(arg);
-                },
-                clear: function() {
-                    this.clear();
-                },
-                version: function() {
-                    this.echo('jQuery Terminal version 2.42.0 | Credits:  * Copyright (c) 2011-2023 Jakub T. Jankiewicz <https://jcubic.pl/me> * Released under the MIT license');
-                },
-                date: function() {
-                    this.echo(new Date().toDateString());
-                },
-                time: function() {
-                    this.echo(new Date().toLocaleTimeString());
-                },
-                projects: function() {
-                    this.echo(`* Projetcs page: <http://127.0.0.1:5500/projects.html>`);
-                },
-                about: function() {
-                    this.echo(`* About me page: <http://127.0.0.1:5500/about.html>`);
-                },
-                contact: function() {
-                    this.echo(`* Contact page: <http://127.0.0.1:5500/contact.html>`);
-                },
-                explore: function() {
-                    this.echo('<span style="color: red;">Portfolio Navigation</span>', {raw: true});
-                    this.echo(`          
-                                * About me page: <http://127.0.0.1:5500/about.html>
+          $('body').terminal({
+            help: function () {
+              this.echo('<span style="color: red;">Available commands: explore, about, contact, projects, echo, clear, version, date, time, about, math, joke</span>', { raw: true });
+            },
+            echo: function (arg) {
+              this.echo(arg);
+            },
+            clear: function () {
+              this.clear();
+            },
+            version: function () {
+              this.echo('jQuery Terminal version 2.42.0 | Credits:  * Copyright (c) 2011-2023 Jakub T. Jankiewicz <https://jcubic.pl/me> * Released under the MIT license');
+            },
+            date: function () {
+              this.echo(new Date().toDateString());
+            },
+            time: function () {
+              this.echo(new Date().toLocaleTimeString());
+            },
+            projects: function () {
+              this.echo(`* Projects page: <${window.location.origin}/projects.html>`);
+            },
+            about: function () {
+              this.echo(`* About me page: <${window.location.origin}/about.html>`);
+            },
+            contact: function () {
+              this.echo(`* Contact page: <${window.location.origin}/contact.html>`);
+            },
+            explore: function () {
+              this.echo('<span style="color: red;">Portfolio Navigation</span>', { raw: true });
+              this.echo(`          
+                    * About me page: <${window.location.origin}/about.html>
 
-                                * Projetcs page: <http://127.0.0.1:5500/projects.html>
+                    * Projects page: <${window.location.origin}/projects.html>
 
-                                * Contact page: <http://127.0.0.1:5500/contact.html>
-                           
-                                `
-                    );
-                },
-                math: function(expression) {
-                    try {
-                        this.echo(eval(expression));
-                    } catch (e) {
-                        this.error('Invalid expression');
-                    }
-                },
-                joke: function() {
-                    this.echo("(10 avaliable)")
-                    this.echo(getRandomJoke());
-                },
-                ls: function() {
-                    this.echo("explore, about, contact, projects, echo, clear, version, date, time, about, math, joke")
-                }
-                
-            }, {
-                greetings: asciiArt
-                        
-                
-            });
+                    * Contact page: <${window.location.origin}/contact.html>
+                `
+              );
+            },
+            math: function (expression) {
+              try {
+                this.echo(eval(expression));
+              } catch (e) {
+                this.error('Invalid expression');
+              }
+            },
+            joke: function () {
+              this.echo("(10 available)")
+              this.echo(getRandomJoke());
+            },
+            ls: function () {
+              this.echo("explore, about, contact, projects, echo, clear, version, date, time, about, math, joke")
+            }
+          }, {
+            greetings: asciiArt
+          });
+
         });
     </script>
 </body>
