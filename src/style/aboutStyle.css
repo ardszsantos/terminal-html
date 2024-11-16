@@ -1,71 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Ubuntu+Sans+Mono:ital,wght@0,400..700;1,400..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Press+Start+2P&family=Ubuntu+Sans+Mono:ital,wght@0,400..700;1,400..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
 body {
-    background-color: #000;
+    background-color: black;
+}
+
+
+.returnButton {
+    background-color: #92A2B8;
+    padding: px;
+    text-decoration: none;
     color: white;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+
 }
-
-
-.main-container {
-    padding: 7.5rem;
-    width: 60%;
-    
-}
-
-
-.h1-title {
-    font-family: "Ubuntu Sans Mono", monospace;
-    font-optical-sizing: auto;
-    font-size: xx-large;
-    font-weight: 600;
-    font-style: normal;
-    
-   
-}
-.h2-title {
-    font-family: "Press Start 2P", system-ui;
-    font-weight: 200;
-    font-size: medium;
-    font-style: normal;
-    margin-right: 17.4rem;
-}
-
-
-.title-container {
-    
-    text-align: center;
-}
-
-
-.my-description {
-    margin-top: 3rem;
-    font-family: "Ubuntu Sans Mono", monospace;
-    text-align: justify; 
-    margin-left: 19.3rem;
-    max-width: 60rem; 
-    line-height: 1.5; 
-}
-
-.background-image {
-    position: absolute;
-    bottom: 6%;
-    right: 39.5rem;
-}
-
-.overlay-content {
-    position: absolute;
-    font-size: xx-large;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    margin-top: 0.8rem;
-    margin-left: 27.5rem;
-    
-}
-
