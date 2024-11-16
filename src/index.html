@@ -3,111 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal Emulator</title>
+    <title>xterm.js Terminal</title>
+    <!-- xterm.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css">
     <style>
         body {
             margin: 0;
             background-color: black;
-            color: white;
-            font-family: monospace;
-        }
-        #terminal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
-            overflow-y: auto;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
         }
-        .line {
-            display: flex;
-        }
-        .line span {
-            margin-right: 5px;
-        }
-        .input-line {
-            flex: 1;
-        }
-        #input {
-            background: none;
-            border: none;
-            color: white;
-            outline: none;
-            font-family: monospace;
-            width: 100%;
+        #terminal-container {
+            width: 80%;
+            height: 80%;
+            border: 1px solid #333;
         }
     </style>
 </head>
 <body>
-    <div id="terminal"></div>
+    <div id="terminal-container"></div>
+
+    <!-- xterm.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
     <script>
-        const terminal = document.getElementById('terminal');
-        
+        const terminalContainer = document.getElementById('terminal-container');
+
+        // Initialize xterm.js
+        const term = new Terminal({
+            cursorBlink: true,
+            cols: 80,
+            rows: 24,
+        });
+
+        term.open(terminalContainer);
+
+        // Available routes
+        const routes = ['about.html', 'contact.html', 'projects.html'];
+
+        term.writeln("Welcome to xterm.js terminal!");
+        term.writeln("Type 'help' to see available commands.");
+        const prompt = () => {
+            term.write("\r\n$ ");
+        };
+        prompt();
+
+        // Terminal state
+        term.currentLine = "";
+
+        // Command handlers
         const commands = {
-            help: () => "Available commands: help, echo [text], clear",
-            echo: (args) => args.join(" "),
+            help: () => "Available commands: help, clear, ls, cd [route]",
             clear: () => {
-                terminal.innerHTML = "";
+                term.clear();
                 return "";
+            },
+            ls: () => routes.join(', '),
+            cd: (args) => {
+                const target = args[0];
+                if (!target) return "Usage: cd [route]";
+                if (routes.includes(target)) {
+                    window.location.href = target;
+                    return `Navigating to ${target}...`;
+                } else {
+                    return `cd: no such route: ${target}`;
+                }
             }
         };
 
-        const prompt = "user@emulator:~$ ";
+        // Tab auto-complete function
+        const autoComplete = (input) => {
+            if (input.startsWith("cd ")) {
+                const partial = input.slice(3).trim();
+                return routes.filter(route => route.startsWith(partial));
+            }
+            return [];
+        };
 
-        function appendLine(content, isPrompt = false) {
-            const line = document.createElement('div');
-            line.className = 'line';
-            const promptSpan = document.createElement('span');
-            promptSpan.textContent = isPrompt ? prompt : '';
-            line.appendChild(promptSpan);
-            const inputSpan = document.createElement('span');
-            inputSpan.className = isPrompt ? 'input-line' : '';
-            inputSpan.textContent = content;
-            line.appendChild(inputSpan);
-            terminal.appendChild(line);
-            terminal.scrollTop = terminal.scrollHeight;
-        }
+        // Handle terminal input
+        term.onData(data => {
+            const charCode = data.charCodeAt(0);
+            switch (charCode) {
+                case 13: // Enter key
+                    const command = term.currentLine.trim();
+                    term.writeln(`\r\n$ ${command}`);
+                    handleCommand(command);
+                    term.currentLine = "";
+                    prompt();
+                    break;
+                case 127: // Backspace key
+                    if (term.currentLine.length > 0) {
+                        term.currentLine = term.currentLine.slice(0, -1);
+                        term.write("\b \b");
+                    }
+                    break;
+                case 9: // Tab key
+                    const suggestions = autoComplete(term.currentLine);
+                    if (suggestions.length === 1) {
+                        const [cmd, ...args] = term.currentLine.split(" ");
+                        term.currentLine = `${cmd} ${suggestions[0]}`;
+                        term.write(`${suggestions[0].slice(args.join(" ").length)}`);
+                    } else if (suggestions.length > 1) {
+                        term.writeln(`\r\n${suggestions.join(', ')}`);
+                        prompt();
+                        term.write(term.currentLine);
+                    }
+                    break;
+                default:
+                    term.currentLine += data;
+                    term.write(data);
+            }
+        });
 
-        function processCommand(command) {
-            const [cmd, ...args] = command.trim().split(" ");
-            if (cmd in commands) {
-                return commands[cmd](args) || '';
-            } else {
-                return `Command not found: ${cmd}`;
+        function handleCommand(input) {
+            const [cmd, ...args] = input.split(" ");
+            if (commands[cmd]) {
+                const output = commands[cmd](args);
+                if (output) term.writeln(output);
+            } else if (cmd) {
+                term.writeln(`Command not found: ${cmd}`);
             }
         }
-
-        function handleInput(event) {
-            if (event.key === 'Enter') {
-                const inputField = event.target;
-                const inputValue = inputField.value;
-                appendLine(inputValue);
-                const output = processCommand(inputValue);
-                if (output) appendLine(output);
-                inputField.remove();
-                createInputLine();
-            }
-        }
-
-        function createInputLine() {
-            const inputLine = document.createElement('div');
-            inputLine.className = 'line';
-            const promptSpan = document.createElement('span');
-            promptSpan.textContent = prompt;
-            inputLine.appendChild(promptSpan);
-            const inputField = document.createElement('input');
-            inputField.id = 'input';
-            inputField.type = 'text';
-            inputField.autofocus = true;
-            inputField.addEventListener('keydown', handleInput);
-            inputLine.appendChild(inputField);
-            terminal.appendChild(inputLine);
-            inputField.focus();
-            terminal.scrollTop = terminal.scrollHeight;
-        }
-
-        appendLine("Welcome to your custom terminal emulator!");
-        appendLine("Type 'help' to see available commands.");
-        createInputLine();
     </script>
 </body>
 </html>
