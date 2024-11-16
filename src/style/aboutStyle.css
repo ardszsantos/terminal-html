@@ -1,12 +1,42 @@
 body {
     background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 
+.returnButtonDiv {
+    padding: 30px;
+    position: absolute;
+    left: 0;
+}
+
 .returnButton {
     background-color: #92A2B8;
-    padding: px;
     text-decoration: none;
     color: white;
+    padding: 5px;
+    border-radius: 100px;
+    font-family: sans-serif;
+    font-size: 12px;
+}
 
+
+.main-container {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    gap: 50px;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
